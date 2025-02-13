@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 
 void main() {
   runApp(const MyApp());
@@ -200,4 +201,26 @@ class HeartbeatScreenState extends State<HeartbeatScreen>
       ),
     );
   }
+}
+
+class ConfettiPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.pink.withOpacity(0.1)
+      ..style = PaintingStyle.fill;
+
+    final random = math.Random(42);
+
+    for (var i = 0; i < 50; i++) {
+      final x = random.nextDouble() * size.width;
+      final y = random.nextDouble() * size.height;
+      final radius = random.nextDouble() * 5 + 2;
+
+      canvas.drawCircle(Offset(x, y), radius, paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
