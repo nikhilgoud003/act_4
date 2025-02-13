@@ -39,7 +39,7 @@ class HeartbeatScreenState extends State<HeartbeatScreen>
 
   final List<String> _messages = [
     "Happy Valentine's Day!",
-    "You make my heart beat faster...",
+    "Seeing you my heart beat faster...",
     "Love is in the air!",
     "Be mine!",
     "Forever yours..."
@@ -192,7 +192,7 @@ class HeartbeatScreenState extends State<HeartbeatScreen>
                 ),
               ),
               child: Text(
-                _isAnimating ? 'Stop Heartbeat' : 'Start Heartbeat',
+                _isAnimating ? 'End Heartbeat' : 'Start Heartbeat',
                 style: const TextStyle(fontSize: 20),
               ),
             ),
