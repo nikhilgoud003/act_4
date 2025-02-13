@@ -33,7 +33,7 @@ class HeartbeatScreenState extends State<HeartbeatScreen>
   late Animation<double> _scaleAnimation;
   late Animation<double> _messageOpacity;
 
-  int _secondsRemaining = 30;
+  int _secondsRemaining = 20;
   bool _isAnimating = false;
   Timer? _timer;
 
@@ -43,6 +43,7 @@ class HeartbeatScreenState extends State<HeartbeatScreen>
     "Love is in the air!",
     "Be mine!",
     "Forever yours..."
+        "You Made my day",
   ];
   int _currentMessageIndex = 0;
 
