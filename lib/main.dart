@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -28,6 +29,8 @@ class HeartbeatScreenState extends State<HeartbeatScreen>
     with TickerProviderStateMixin {
   late AnimationController _heartbeatController;
   late Animation<double> _scaleAnimation;
+  int _secondsRemaining = 30;
+  Timer? _timer;
 
   @override
   void initState() {
@@ -44,16 +47,30 @@ class HeartbeatScreenState extends State<HeartbeatScreen>
   }
 
   void _startAnimation() {
-    _heartbeatController.repeat(reverse: true);
+    setState(() {
+      _secondsRemaining = 30;
+      _heartbeatController.repeat(reverse: true);
+      _startTimer();
+    });
   }
 
-  void _stopAnimation() {
-    _heartbeatController.stop();
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_secondsRemaining > 0) {
+          _secondsRemaining--;
+        } else {
+          _heartbeatController.stop();
+          _timer?.cancel();
+        }
+      });
+    });
   }
 
   @override
   void dispose() {
     _heartbeatController.dispose();
+    _timer?.cancel();
     super.dispose();
   }
 
@@ -62,18 +79,23 @@ class HeartbeatScreenState extends State<HeartbeatScreen>
     return Scaffold(
       backgroundColor: Colors.pink[50],
       body: Center(
-        child: ScaleTransition(
-          scale: _scaleAnimation,
-          child: Icon(
-            Icons.favorite,
-            size: 150,
-            color: Colors.red[700],
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Time: $_secondsRemaining seconds',
+              style: TextStyle(fontSize: 24, color: Colors.pink[700]),
+            ),
+            ScaleTransition(
+              scale: _scaleAnimation,
+              child: Icon(Icons.favorite, size: 150, color: Colors.red[700]),
+            ),
+            ElevatedButton(
+              onPressed: _startAnimation,
+              child: const Text('Start Heartbeat'),
+            ),
+          ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _startAnimation,
-        child: const Icon(Icons.favorite),
       ),
     );
   }
